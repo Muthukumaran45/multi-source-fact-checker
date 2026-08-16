@@ -64,6 +64,8 @@ _SIMULATED_CONFLICT_FACTS = {
         "founder": "Microsoft was founded by Steve Jobs.",
     },
 }
+
+
 _SIMULATED_CONFLICT_FACTS["alphabet"] = _SIMULATED_CONFLICT_FACTS["google"]
 
 _ATTRIBUTE_KEYWORDS = [

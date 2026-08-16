@@ -2,65 +2,74 @@
 
 A multi-source fact-checking agent built for the LEC AI Engineering Intern build assessment.
 
-The system answers factual questions by consulting multiple independent sources, comparing the returned evidence, and gracefully handling source failures, timeouts, and conflicting information.
+## How to Run
 
-## Overview
+### 1. Install backend dependencies
 
-The agent uses:
+```bash
+pip install -r requirements.txt
+```
 
-- **LangGraph** for agent orchestration
-- **OpenAI GPT-4o-mini** for planning and evidence analysis
-- **Local RAG** using OpenAI embeddings + FAISS
-- **Wikipedia API** as an independent external source
-- **FastAPI** for the backend API
-- **React** for the frontend
+### 2. Create a `.env` file
 
-The main design goal is **graceful degradation**.
+Create a `.env` file in the backend root directory:
 
-The agent should not:
+```env
+OPENAI_API_KEY=your_openai_api_key
+```
 
-- silently guess
-- pretend an unavailable source provided evidence
-- crash when one source fails
-- choose one source arbitrarily when sources conflict
+### 3. Start the backend
 
-Instead, it reports the available evidence and adjusts its confidence accordingly.
+```bash
+uvicorn main:app --reload
+```
 
----
+The backend will run at:
+
+```text
+http://localhost:8000
+```
+
+### 4. Run the frontend
+
+Open a new terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then open the URL shown in the terminal.
 
 ## Architecture
 
 ```text
-                    User Question
-                         |
-                         v
-                    +---------+
-                    | Planner |
-                    +---------+
-                         |
-              Select relevant sources
-                         |
-                         v
-              +---------------------+
-              | Execute in Parallel |
-              +---------------------+
-                  /             \
-                 /               \
-                v                 v
-        +-------------+    +-------------+
-        |  Local RAG  |    |  Wikipedia  |
-        |    FAISS    |    |     API     |
-        +-------------+    +-------------+
-                \                 /
-                 \               /
-                  v             v
-              +-------------------+
-              | Evidence Analyzer |
-              +-------------------+
-                       |
-                       v
-              Agreement / Conflict
-                 / Insufficient
-                       |
-                       v
-                Final Answer
+User Question
+      |
+      v
+   Planner
+      |
+      v
++-------------+
+| Local RAG   |
+| Wikipedia   |
++-------------+
+      |
+      v
+Evidence Analyzer
+      |
+      v
+Final Answer
+```
+
+## What I Would Do Next
+
+With more time, I would:
+
+* Add more independent data sources.
+* Improve source reliability and ranking.
+* Add automated evaluation and test cases for conflicting sources.
+* Add better logging and monitoring.
+* Add caching and rate limiting for production use.
+* Improve the RAG retrieval and evaluation pipeline.
