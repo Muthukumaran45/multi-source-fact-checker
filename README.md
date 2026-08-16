@@ -21,7 +21,7 @@ OPENAI_API_KEY=your_openai_api_key
 ### 3. Start the backend
 
 ```bash
-uvicorn main:app --reload
+uvicorn server:app --reload --port 8000
 ```
 
 The backend will run at:
