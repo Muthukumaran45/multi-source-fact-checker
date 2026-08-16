@@ -1,0 +1,12 @@
+langchain
+langchain-community
+langchain-openai
+langchain-text-splitters
+langgraph
+pydantic
+faiss-cpu
+python-dotenv
+wikipedia
+requests
+fastapi
+uvicorn[standard]
